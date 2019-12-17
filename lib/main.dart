@@ -15,10 +15,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Personal Expenses',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+          primarySwatch: Colors.purple,
+          accentColor: Colors.amber,
+          fontFamily: 'Quicksand',
+          textTheme: ThemeData.light().textTheme.copyWith(
+                title: TextStyle(
+                  fontFamily: 'OpenSans',
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+          appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                      title: TextStyle(
+                    fontFamily: 'OpenSans',
+                    fontSize: 20,
+                  )))),
       home: MyHomePage(),
     );
   }
@@ -36,36 +50,38 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-    Transaction(
-        id: 't1', amount: 69.99, timestamp: DateTime.now(), title: "New Shoes"),
-    Transaction(
-        id: 't2', amount: 18.55, timestamp: DateTime.now(), title: "Groceries"),
-    //Transaction(
-    //  id: 't3', amount: 21.11, timestamp: DateTime.now(), title: "Battery"),
+//    Transaction(
+//        id: 't1', amount: 69.99, timestamp: DateTime.now(), title: "New Shoes"),
+//    Transaction(
+//        id: 't2', amount: 18.55, timestamp: DateTime.now(), title: "Groceries"),
+//    //Transaction(
+//    //  id: 't3', amount: 21.11, timestamp: DateTime.now(), title: "Battery"),
   ];
 
   void _addNewTransaction(String title, double amount) {
     setState(() {
       this._userTransactions.add(Transaction(
-        title: title,
-        timestamp: DateTime.now(),
-        amount: amount,
-        id: DateTime.now().toString(),
-      ));
+            title: title,
+            timestamp: DateTime.now(),
+            amount: amount,
+            id: DateTime.now().toString(),
+          ));
     });
   }
 
   void _startAddNewTransaction(BuildContext context) {
-    showModalBottomSheet(context: context, builder: (bContext) {
-      return NewTransaction(this._addNewTransaction);
-    });
+    showModalBottomSheet(
+        context: context,
+        builder: (bContext) {
+          return NewTransaction(this._addNewTransaction);
+        });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter App'),
+        title: Text('Personal Expenses'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
