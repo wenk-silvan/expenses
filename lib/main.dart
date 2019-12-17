@@ -1,5 +1,7 @@
-import 'dart:ffi';
+import 'dart:convert';
+import 'dart:io';
 
+import 'package:expenses/widgets/chart.dart';
 import 'package:expenses/widgets/new_transaction.dart';
 import 'package:expenses/widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
@@ -50,13 +52,21 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _userTransactions = [
-//    Transaction(
-//        id: 't1', amount: 69.99, timestamp: DateTime.now(), title: "New Shoes"),
-//    Transaction(
-//        id: 't2', amount: 18.55, timestamp: DateTime.now(), title: "Groceries"),
-//    //Transaction(
-//    //  id: 't3', amount: 21.11, timestamp: DateTime.now(), title: "Battery"),
+    Transaction(
+        id: 't1', amount: 69.99, timestamp: DateTime.now(), title: "New Shoes"),
+    Transaction(
+        id: 't2', amount: 18.55, timestamp: DateTime.now(), title: "Groceries"),
+    Transaction(
+      id: 't3', amount: 21.11, timestamp: DateTime.now(), title: "Battery"),
   ];
+
+  List<Transaction> get _recentTransaction {
+    return this._userTransactions.where((t) {
+      return t.timestamp.isAfter(
+        DateTime.now().subtract(Duration(days: 7)),
+      );
+    }).toList();
+  }
 
   void _addNewTransaction(String title, double amount) {
     setState(() {
@@ -67,7 +77,20 @@ class _MyHomePageState extends State<MyHomePage> {
             id: DateTime.now().toString(),
           ));
     });
+
+//    this._saveTransactionsToFile();
   }
+
+//  void _saveTransactionsToFile() {
+//    var json = jsonEncode(this._userTransactions, toEncodable: (t) {
+//      return {
+//        "a": 4,
+//        "b": "Hey",
+//      };
+//    });
+//    final file = File("data.json");
+//    file.writeAsString(json);
+//  }
 
   void _startAddNewTransaction(BuildContext context) {
     showModalBottomSheet(
@@ -94,13 +117,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Container(
-              width: double.infinity,
-              child: Card(
-                color: Colors.blue,
-                child: Text('Chart!'),
-              ),
-            ),
+            Chart(this._recentTransaction),
             TransactionList(this._userTransactions),
           ],
         ),
