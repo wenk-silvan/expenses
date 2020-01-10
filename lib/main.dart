@@ -28,6 +28,7 @@ class MyApp extends StatelessWidget {
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
                 ),
+                button: TextStyle(color: Colors.white),
               ),
           appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
@@ -57,7 +58,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Transaction(
         id: 't2', amount: 18.55, timestamp: DateTime.now(), title: "Groceries"),
     Transaction(
-      id: 't3', amount: 21.11, timestamp: DateTime.now(), title: "Battery"),
+        id: 't3', amount: 21.11, timestamp: DateTime.now(), title: "Battery"),
   ];
 
   List<Transaction> get _recentTransaction {
@@ -68,11 +69,11 @@ class _MyHomePageState extends State<MyHomePage> {
     }).toList();
   }
 
-  void _addNewTransaction(String title, double amount) {
+  void _addNewTransaction(String title, double amount, DateTime pickedDate) {
     setState(() {
       this._userTransactions.add(Transaction(
             title: title,
-            timestamp: DateTime.now(),
+            timestamp: pickedDate,
             amount: amount,
             id: DateTime.now().toString(),
           ));
