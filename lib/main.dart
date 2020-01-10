@@ -21,6 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
           primarySwatch: Colors.purple,
           accentColor: Colors.amber,
+          errorColor: Colors.red,
           fontFamily: 'Quicksand',
           textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
@@ -78,20 +79,7 @@ class _MyHomePageState extends State<MyHomePage> {
             id: DateTime.now().toString(),
           ));
     });
-
-//    this._saveTransactionsToFile();
   }
-
-//  void _saveTransactionsToFile() {
-//    var json = jsonEncode(this._userTransactions, toEncodable: (t) {
-//      return {
-//        "a": 4,
-//        "b": "Hey",
-//      };
-//    });
-//    final file = File("data.json");
-//    file.writeAsString(json);
-//  }
 
   void _startAddNewTransaction(BuildContext context) {
     showModalBottomSheet(
@@ -99,6 +87,12 @@ class _MyHomePageState extends State<MyHomePage> {
         builder: (bContext) {
           return NewTransaction(this._addNewTransaction);
         });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      this._userTransactions.removeWhere((tx) => tx.id == id);
+    });
   }
 
   @override
@@ -119,7 +113,7 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             Chart(this._recentTransaction),
-            TransactionList(this._userTransactions),
+            TransactionList(this._userTransactions, this._deleteTransaction),
           ],
         ),
       ),
