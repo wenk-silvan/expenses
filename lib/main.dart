@@ -11,13 +11,7 @@ import 'package:intl/date_symbol_data_local.dart';
 
 import 'models/transaction.dart';
 
-void main() {
-  /*SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);*/
-  runApp(MyApp());
-}
+void main () => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -147,6 +141,15 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
 
+            if (isLandscape) this._showChart
+                ? Container(
+                height: (MediaQuery.of(context).size.height -
+                    appBar.preferredSize.height -
+                    MediaQuery.of(context).padding.top) *
+                    0.7,
+                child: Chart(this._recentTransaction))
+                : transactionListWidget,
+
             if (!isLandscape) Container(
                 height: (MediaQuery.of(context).size.height -
                     appBar.preferredSize.height -
@@ -154,14 +157,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     0.3,
                 child: Chart(this._recentTransaction)),
             if (!isLandscape) transactionListWidget,
-            if (isLandscape) this._showChart
-                ? Container(
-                    height: (MediaQuery.of(context).size.height -
-                            appBar.preferredSize.height -
-                            MediaQuery.of(context).padding.top) *
-                        0.7,
-                    child: Chart(this._recentTransaction))
-                : transactionListWidget,
+
           ],
         ),
       ),
