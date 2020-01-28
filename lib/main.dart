@@ -64,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   bool _showChart = false;
 
+  //View App State =====================
   @override
   void initState() {
     WidgetsBinding.instance.addObserver(this);
@@ -80,6 +81,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
+  // ===================================
 
   List<Transaction> get _recentTransaction {
     return this._userTransactions.where((t) {
